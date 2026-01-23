@@ -1,6 +1,6 @@
 ﻿namespace QuanLyBanHang
 {
-    partial class frmLoaiSanPham
+    partial class frmHangSanXuat
     {
         /// <summary>
         /// Required designer variable.
@@ -28,6 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            groupBox2 = new GroupBox();
+            dataGridView = new DataGridView();
+            ID = new DataGridViewTextBoxColumn();
+            TenHangSanXuat = new DataGridViewTextBoxColumn();
             groupBox1 = new GroupBox();
             btnThoat = new Button();
             btnHuyBo = new Button();
@@ -35,16 +39,58 @@
             btnXoa = new Button();
             btnSua = new Button();
             btnThem = new Button();
-            txtTenLoai = new TextBox();
+            txtTenHang = new TextBox();
             label1 = new Label();
-            groupBox2 = new GroupBox();
-            dataGridView = new DataGridView();
-            ID = new DataGridViewTextBoxColumn();
-            Tenloai = new DataGridViewTextBoxColumn();
-            groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
+            groupBox1.SuspendLayout();
             SuspendLayout();
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(dataGridView);
+            groupBox2.Location = new Point(2, 163);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(1002, 386);
+            groupBox2.TabIndex = 3;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Danh sách loại sản phẩm";
+            // 
+            // dataGridView
+            // 
+            dataGridView.AllowUserToAddRows = false;
+            dataGridView.AllowUserToDeleteRows = false;
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView.Columns.AddRange(new DataGridViewColumn[] { ID, TenHangSanXuat });
+            dataGridView.Dock = DockStyle.Fill;
+            dataGridView.Location = new Point(3, 23);
+            dataGridView.MultiSelect = false;
+            dataGridView.Name = "dataGridView";
+            dataGridView.ReadOnly = true;
+            dataGridView.RowHeadersVisible = false;
+            dataGridView.RowHeadersWidth = 51;
+            dataGridView.Size = new Size(996, 360);
+            dataGridView.TabIndex = 0;
+            // 
+            // ID
+            // 
+            ID.DataPropertyName = "ID";
+            ID.FillWeight = 32.08556F;
+            ID.HeaderText = "ID";
+            ID.MinimumWidth = 6;
+            ID.Name = "ID";
+            ID.ReadOnly = true;
+            // 
+            // TenHangSanXuat
+            // 
+            TenHangSanXuat.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            TenHangSanXuat.DataPropertyName = "TenHangSanXuat";
+            TenHangSanXuat.FillWeight = 167.914444F;
+            TenHangSanXuat.HeaderText = "Tên hãng sản xuất";
+            TenHangSanXuat.MinimumWidth = 6;
+            TenHangSanXuat.Name = "TenHangSanXuat";
+            TenHangSanXuat.ReadOnly = true;
             // 
             // groupBox1
             // 
@@ -54,14 +100,14 @@
             groupBox1.Controls.Add(btnXoa);
             groupBox1.Controls.Add(btnSua);
             groupBox1.Controls.Add(btnThem);
-            groupBox1.Controls.Add(txtTenLoai);
+            groupBox1.Controls.Add(txtTenHang);
             groupBox1.Controls.Add(label1);
-            groupBox1.Location = new Point(1, 0);
+            groupBox1.Location = new Point(2, -1);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(1002, 158);
-            groupBox1.TabIndex = 0;
+            groupBox1.TabIndex = 2;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Thông tin loại sản phẩm";
+            groupBox1.Text = "Thông tin hãng sản xuất";
             // 
             // btnThoat
             // 
@@ -131,14 +177,14 @@
             btnThem.UseVisualStyleBackColor = true;
             btnThem.Click += btnThem_Click;
             // 
-            // txtTenLoai
+            // txtTenHang
             // 
-            txtTenLoai.Font = new Font("Times New Roman", 12F);
-            txtTenLoai.Location = new Point(197, 43);
-            txtTenLoai.Multiline = true;
-            txtTenLoai.Name = "txtTenLoai";
-            txtTenLoai.Size = new Size(799, 34);
-            txtTenLoai.TabIndex = 1;
+            txtTenHang.Font = new Font("Times New Roman", 12F);
+            txtTenHang.Location = new Point(197, 43);
+            txtTenHang.Multiline = true;
+            txtTenHang.Name = "txtTenHang";
+            txtTenHang.Size = new Size(799, 34);
+            txtTenHang.TabIndex = 1;
             // 
             // label1
             // 
@@ -146,75 +192,33 @@
             label1.Font = new Font("Times New Roman", 12F);
             label1.Location = new Point(11, 46);
             label1.Name = "label1";
-            label1.Size = new Size(188, 22);
+            label1.Size = new Size(183, 22);
             label1.TabIndex = 0;
-            label1.Text = "Tên loại sản phẩm (*):";
+            label1.Text = "Tên hãng sản xuất (*):";
             // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(dataGridView);
-            groupBox2.Location = new Point(1, 164);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1002, 386);
-            groupBox2.TabIndex = 1;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Danh sách loại sản phẩm";
-            // 
-            // dataGridView
-            // 
-            dataGridView.AllowUserToAddRows = false;
-            dataGridView.AllowUserToDeleteRows = false;
-            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView.Columns.AddRange(new DataGridViewColumn[] { ID, Tenloai });
-            dataGridView.Dock = DockStyle.Fill;
-            dataGridView.Location = new Point(3, 23);
-            dataGridView.MultiSelect = false;
-            dataGridView.Name = "dataGridView";
-            dataGridView.ReadOnly = true;
-            dataGridView.RowHeadersVisible = false;
-            dataGridView.RowHeadersWidth = 51;
-            dataGridView.Size = new Size(996, 360);
-            dataGridView.TabIndex = 0;
-            // 
-            // ID
-            // 
-            ID.DataPropertyName = "ID";
-            ID.FillWeight = 32.08556F;
-            ID.HeaderText = "ID";
-            ID.MinimumWidth = 6;
-            ID.Name = "ID";
-            ID.ReadOnly = true;
-            // 
-            // Tenloai
-            // 
-            Tenloai.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Tenloai.DataPropertyName = "Tenloai";
-            Tenloai.FillWeight = 167.914444F;
-            Tenloai.HeaderText = "Tên loại sản phẩm";
-            Tenloai.MinimumWidth = 6;
-            Tenloai.Name = "Tenloai";
-            Tenloai.ReadOnly = true;
-            // 
-            // frmLoaiSanPham
+            // frmHangSanXuat
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1006, 548);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
-            Name = "frmLoaiSanPham";
-            Text = "Loại sản phẩm";
-            Load += frmLoaiSanPham_Load;
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
+            Name = "frmHangSanXuat";
+            Text = "Hãng sản xuất";
+            Load += frmHangSanXuat_Load;
             groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
+        private GroupBox groupBox2;
+        private DataGridView dataGridView;
+        private DataGridViewTextBoxColumn ID;
+        private DataGridViewTextBoxColumn TenHangSanXuat;
         private GroupBox groupBox1;
         private Button btnThoat;
         private Button btnHuyBo;
@@ -222,11 +226,7 @@
         private Button btnXoa;
         private Button btnSua;
         private Button btnThem;
-        private TextBox txtTenLoai;
+        private TextBox txtTenHang;
         private Label label1;
-        private GroupBox groupBox2;
-        private DataGridView dataGridView;
-        private DataGridViewTextBoxColumn ID;
-        private DataGridViewTextBoxColumn Tenloai;
     }
 }
