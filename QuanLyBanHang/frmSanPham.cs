@@ -84,7 +84,7 @@ namespace QuanLyBanHang
             cboLoaiSanPham.DataBindings.Add("SelectedValue", bindingSource, "LoaiSanPhamID", false, DataSourceUpdateMode.Never);
             // Tương tự đối với cboHangSanXuat
             cboHangSanXuat.DataBindings.Clear();
-            
+
 
             cboHangSanXuat.DataBindings.Add("SelectedValue", bindingSource, "HangSanXuatID", false, DataSourceUpdateMode.Never);
 
@@ -132,7 +132,7 @@ namespace QuanLyBanHang
                 frmSanPham_Load(sender, e);
             }
         }
-
+        List<string> selectedImages = new List<string>();
         private void btnLuu_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(cboLoaiSanPham.Text))
@@ -147,40 +147,78 @@ namespace QuanLyBanHang
                 MessageBox.Show("Đơn giá sản phẩm phải lớn hơn 0.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
             {
-                if (xuLyThem)
+                try
                 {
-                    SanPham sp = new SanPham();
-                    // Tương tự với các form đã thực hiện
-                    sp.TenSanPham = txtTenSanPham.Text;
-                    sp.LoaiSanPhamID = (int)cboLoaiSanPham.SelectedValue;
-                    sp.HangSanXuatID = (int)cboHangSanXuat.SelectedValue;
-                    sp.SoLuong = (int)numSoLuong.Value;
-                    sp.DonGia = (int)numDonGia.Value;
-                    sp.MoTa = txtMoTa.Text;
-                    sp.HinhAnh = picHinhAnh.ImageLocation != null ? Path.GetFileName(picHinhAnh.ImageLocation) : null;
-                    context.SanPham.Add(sp);
-                    context.SaveChanges();
-                    MessageBox.Show("Thêm sản phẩm thành công!", "Thông báo");
-                }
-                else
-                {
-                    SanPham sp = context.SanPham.Find(id);
-                    if (sp != null)
+                    string fileName = "";
+
+                    // XỬ LÝ ẢNH TRƯỚC KHI LƯU DB
+                    if (picHinhAnh.Image != null)
                     {
-                        // Tương tự với các form đã thực hiện
+                        // Nếu là thêm mới hoặc đổi ảnh, tạo tên file duy nhất
+                        fileName = Guid.NewGuid().ToString() + ".jpg";
+                        string savePath = Path.Combine(imagesFolder, fileName);
+
+                        // Tạo bản sao để lưu, tránh lỗi file in use
+                        using (Bitmap bmp = new Bitmap(picHinhAnh.Image))
+                        {
+                            // Giải phóng PictureBox tạm thời để ghi file
+                            picHinhAnh.Image = null;
+                            bmp.Save(savePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        }
+                        // Nạp lại để hiển thị
+                        picHinhAnh.Image = LoadImageNoLock(savePath);
+                    }
+
+                    if (xuLyThem)
+                    {
+                        SanPham sp = new SanPham();
                         sp.TenSanPham = txtTenSanPham.Text;
                         sp.LoaiSanPhamID = (int)cboLoaiSanPham.SelectedValue;
                         sp.HangSanXuatID = (int)cboHangSanXuat.SelectedValue;
                         sp.SoLuong = (int)numSoLuong.Value;
                         sp.DonGia = (int)numDonGia.Value;
                         sp.MoTa = txtMoTa.Text;
-                        sp.HinhAnh = picHinhAnh.ImageLocation != null ? Path.GetFileName(picHinhAnh.ImageLocation) : null;
-                        context.SaveChanges();
-                        MessageBox.Show("Cập nhật thông tin sản phẩm thành công!", "Thông báo");
+                        sp.HinhAnh = fileName;
+
+                        context.SanPham.Add(sp);
                     }
+                    else // Cập nhật (Sửa)
+                    {
+                        var sp = context.SanPham.Find(id);
+                        if (sp != null)
+                        {
+                            sp.TenSanPham = txtTenSanPham.Text;
+                            sp.LoaiSanPhamID = (int)cboLoaiSanPham.SelectedValue;
+                            sp.HangSanXuatID = (int)cboHangSanXuat.SelectedValue;
+                            sp.SoLuong = (int)numSoLuong.Value;
+                            sp.DonGia = (int)numDonGia.Value;
+                            sp.MoTa = txtMoTa.Text;
+                            sp.HinhAnh = fileName;
+                            if (!string.IsNullOrEmpty(fileName)) sp.HinhAnh = fileName;
+                        }
+                    }
+
+                    context.SaveChanges(); // Sẽ chạy tốt vì ID đã là Identity
+                    MessageBox.Show("Lưu thành công!");
+                    frmSanPham_Load(sender, e);
                 }
-                frmSanPham_Load(sender, e);
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi: " + ex.Message);
+                }
             }
+        }
+        private Image LoadImageNoLock(string path)
+        {
+            if (string.IsNullOrEmpty(path) || !File.Exists(path)) return null;
+            try
+            {
+                using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    return Image.FromStream(stream);
+                }
+            }
+            catch { return null; }
         }
 
         private void btnHuyBo_Click(object sender, EventArgs e)
@@ -242,17 +280,32 @@ namespace QuanLyBanHang
             numDonGia.Value = 0;
             picHinhAnh.Image = null;
         }
-    }
-    public static class StringExtensions
-    {
-        public static string GenerateSlug(this string phrase)
+
+        private void txtTenSanPham_TextChanged(object sender, EventArgs e)
         {
-            string str = phrase.ToLower();
-            // Thay thế các ký tự đặc biệt và khoảng trắng
-            str = System.Text.RegularExpressions.Regex.Replace(str, @"[^a-z0-9\s-]", "");
-            str = System.Text.RegularExpressions.Regex.Replace(str, @"\s+", " ").Trim();
-            str = str.Replace(" ", "-");
-            return str;
+
+        }
+
+        private void btnXoay_Click(object sender, EventArgs e)
+        {
+            if (picHinhAnh.Image != null)
+            {
+                // Xoay ảnh 90 độ
+                picHinhAnh.Image.RotateFlip(RotateFlipType.Rotate90FlipNone);
+                picHinhAnh.Invalidate(); // Vẽ lại giao diện
+            }
         }
     }
-}
+        public static class StringExtensions
+        {
+            public static string GenerateSlug(this string phrase)
+            {
+                string str = phrase.ToLower();
+                // Thay thế các ký tự đặc biệt và khoảng trắng
+                str = System.Text.RegularExpressions.Regex.Replace(str, @"[^a-z0-9\s-]", "");
+                str = System.Text.RegularExpressions.Regex.Replace(str, @"\s+", " ").Trim();
+                str = str.Replace(" ", "-");
+                return str;
+            }
+        }
+    }

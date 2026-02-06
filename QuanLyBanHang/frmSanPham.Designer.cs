@@ -61,6 +61,7 @@
             SoLuong = new DataGridViewTextBoxColumn();
             DonGia = new DataGridViewTextBoxColumn();
             HinhAnh = new DataGridViewImageColumn();
+            btnXoay = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picHinhAnh).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numDonGia).BeginInit();
@@ -71,6 +72,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(btnXoay);
             groupBox1.Controls.Add(btnDoiAnh);
             groupBox1.Controls.Add(picHinhAnh);
             groupBox1.Controls.Add(numDonGia);
@@ -195,6 +197,7 @@
             txtTenSanPham.Name = "txtTenSanPham";
             txtTenSanPham.Size = new Size(663, 34);
             txtTenSanPham.TabIndex = 21;
+            txtTenSanPham.TextChanged += txtTenSanPham_TextChanged;
             // 
             // label3
             // 
@@ -433,6 +436,18 @@
             HinhAnh.Resizable = DataGridViewTriState.True;
             HinhAnh.SortMode = DataGridViewColumnSortMode.Automatic;
             // 
+            // btnXoay
+            // 
+            btnXoay.BackColor = Color.LightGray;
+            btnXoay.Font = new Font("Times New Roman", 12F);
+            btnXoay.Location = new Point(1064, 82);
+            btnXoay.Name = "btnXoay";
+            btnXoay.Size = new Size(153, 41);
+            btnXoay.TabIndex = 31;
+            btnXoay.Text = "Xoay Ảnh";
+            btnXoay.UseVisualStyleBackColor = false;
+            btnXoay.Click += btnXoay_Click;
+            // 
             // frmSanPham
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -488,5 +503,7 @@
         private DataGridViewTextBoxColumn SoLuong;
         private DataGridViewTextBoxColumn DonGia;
         private DataGridViewImageColumn HinhAnh;
+        private Button btnXoay;
+        private Button btnXoayAnh;
     }
 }
