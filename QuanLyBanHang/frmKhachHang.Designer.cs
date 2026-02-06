@@ -161,7 +161,7 @@
             // 
             btnXoa.Font = new Font("Times New Roman", 12F);
             btnXoa.ForeColor = Color.Red;
-            btnXoa.Location = new Point(844, 166);
+            btnXoa.Location = new Point(844, 167);
             btnXoa.Name = "btnXoa";
             btnXoa.Size = new Size(93, 32);
             btnXoa.TabIndex = 4;
