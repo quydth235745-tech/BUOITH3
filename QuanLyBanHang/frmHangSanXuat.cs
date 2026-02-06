@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace QuanLyBanHang
 {
@@ -52,8 +53,11 @@ namespace QuanLyBanHang
             }
 
             // Binding dữ liệu từ bảng lên TextBox
-            txtTenHang.DataBindings.Clear();
-            txtTenHang.DataBindings.Add("Text", bindingSource, "TenHang", false, DataSourceUpdateMode.Never);
+            if (dataGridView.Columns["TenHangSanXuat"] != null)
+            {
+                dataGridView.Columns["TenHangSanXuat"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns["TenHangSanXuat"].HeaderText = "Tên hãng sản xuất";
+            }
         }
 
         private void btnThem_Click(object sender, EventArgs e)
